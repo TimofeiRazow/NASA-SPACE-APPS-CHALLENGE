@@ -13,10 +13,26 @@ export class SolarSystemScene {
         this.orbits = [];
         this.objectLabels = [];
         
-        
+        this.phaColor = { r: 1.0, g: 0.0, b: 0.0 };
+        this.asteroidColor = { r: 0.8, g: 0.7, b: 0.6 };
 
         this.startTime = Date.now();
         this.timeScale = 1;
+    }
+
+    updateAsteroidColors(phaColorHex, asteroidColorHex) {
+        // Конвертация из hex в RGB
+        const hexToRgb = (hex) => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16) / 255,
+                g: parseInt(result[2], 16) / 255,
+                b: parseInt(result[3], 16) / 255
+            } : { r: 1, g: 1, b: 1 };
+        };
+        
+        this.phaColor = hexToRgb(phaColorHex);
+        this.asteroidColor = hexToRgb(asteroidColorHex);
     }
     
     async create() {
@@ -450,16 +466,14 @@ export class SolarSystemScene {
                                            positions[i3 + 1] * positions[i3 + 1] + 
                                            positions[i3 + 2] * positions[i3 + 2]);
             const colorIntensity = Math.max(0.3, Math.min(1.0, 50 / distanceToSun));
-            if (asteroid.data.pha && asteroid.data.pha == "Y"){
-                // Красный цвет для опасных астероидов
-                colors[index * 3] = 1.0;                    // R
-                colors[index * 3 + 1] = 0.1 * colorIntensity; // G
-                colors[index * 3 + 2] = 0.1 * colorIntensity; // B
+            if (asteroid.data.pha && asteroid.data.pha == "Y") {
+                colors[index * 3] = this.phaColor.r * colorIntensity;
+                colors[index * 3 + 1] = this.phaColor.g * colorIntensity;
+                colors[index * 3 + 2] = this.phaColor.b * colorIntensity;
             } else {
-                // Обычный цвет для остальных астероидов
-                colors[index * 3] = 0.8 * colorIntensity;     // R
-                colors[index * 3 + 1] = 0.7 * colorIntensity; // G
-                colors[index * 3 + 2] = 0.6 * colorIntensity; // B
+                colors[index * 3] = this.asteroidColor.r * colorIntensity;
+                colors[index * 3 + 1] = this.asteroidColor.g * colorIntensity;
+                colors[index * 3 + 2] = this.asteroidColor.b * colorIntensity;
             }
         });
         

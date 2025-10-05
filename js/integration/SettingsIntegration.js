@@ -158,28 +158,8 @@ export class SettingsIntegration {
                 }
                 
                 // Обновление цветов астероидов
-                const asteroidPoints = solarScene.scene.getObjectByName('asteroidPoints');
-                if (asteroidPoints && asteroidPoints.geometry.attributes.color) {
-                    const colors = asteroidPoints.geometry.attributes.color.array;
-                    const phaColor = this.hexToRgb(display.phaColor);
-                    const normalColor = this.hexToRgb(display.asteroidColor);
-                    
-                    solarScene.asteroids.forEach((asteroid, i) => {
-                        const isPHA = asteroid.data && asteroid.data.pha === 'Y';
-                        const color = isPHA ? phaColor : normalColor;
-                        
-                        colors[i * 3] = color.r;
-                        colors[i * 3 + 1] = color.g;
-                        colors[i * 3 + 2] = color.b;
-                    });
-                    
-                    asteroidPoints.geometry.attributes.color.needsUpdate = true;
-                }
-                
-                // Размер астероидов
-                if (asteroidPoints && asteroidPoints.material) {
-                    asteroidPoints.material.size = display.asteroidSize;
-                }
+                solarScene.updateAsteroidColors(display.phaColor, display.asteroidColor);
+            
             }
         }
         
