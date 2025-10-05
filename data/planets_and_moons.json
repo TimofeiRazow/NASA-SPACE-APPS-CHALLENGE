@@ -1,0 +1,318 @@
+{
+  "solar_system": {
+    "epoch": "2451545.0",
+    "description": "Orbital elements for J2000.0 epoch (Jan 1, 2000, 12:00 TT)",
+    "units": {
+      "mass": "kg",
+      "radius": "km", 
+      "semi_major_axis": "AU (for planets) / km (for moons)",
+      "eccentricity": "dimensionless",
+      "inclination": "degrees",
+      "longitude_ascending_node": "degrees", 
+      "argument_periapsis": "degrees",
+      "mean_anomaly": "degrees",
+      "orbital_period": "days"
+    },
+    "central_body": {
+      "name": "Sun",
+      "mass": 1.9891e30,
+      "radius": 695700
+    },
+    "planets": [
+      {
+        "name": "Меркурий",
+        "id": 199,
+        "mass": 3.3011e23,
+        "radius": 2439.7,
+        "semi_major_axis": 0.387098,
+        "eccentricity": 0.205630,
+        "inclination": 7.005,
+        "longitude_ascending_node": 48.331,
+        "argument_periapsis": 29.124,
+        "mean_anomaly": 174.796,
+        "orbital_period": 87.969,
+        "rotation_period": 1407.6,
+        "texture": "./data/mercury.jpg",
+        "moons": []
+      },
+      {
+        "name": "Венера", 
+        "id": 299,
+        "mass": 4.8675e24,
+        "radius": 6051.8,
+        "semi_major_axis": 0.723332,
+        "eccentricity": 0.006772,
+        "inclination": 3.395,
+        "longitude_ascending_node": 76.678,
+        "argument_periapsis": 54.884,
+        "mean_anomaly": 50.115,
+        "orbital_period": 224.701,
+        "rotation_period": -5832.5,
+        "texture": "./data/venusmap.jpg",
+        "moons": []
+      },
+      {
+        "name": "Земля",
+        "id": 399,
+        "mass": 5.9724e24,
+        "radius": 6371.0,
+        "semi_major_axis": 1.000001,
+        "eccentricity": 0.016709,
+        "inclination": 0.000,
+        "longitude_ascending_node": 348.739,
+        "argument_periapsis": 114.208,
+        "mean_anomaly": 357.529,
+        "orbital_period": 365.256,
+        "rotation_period": 0.99726968,
+        "texture": "./data/earth_daymap.jpg",
+        "bump": "./data/moonbump.jpg",
+        "moons": [
+          {
+            "name": "Луна",
+            "id": 301,
+            "mass": 7.342e22,
+            "radius": 1737.4,
+            "semi_major_axis": 384400,
+            "eccentricity": 0.0549,
+            "inclination": 5.145,
+            "longitude_ascending_node": 125.045,
+            "argument_periapsis": 318.15,
+            "mean_anomaly": 135.27,
+            "texture": "./data/moon.jpg",
+            "bump": "./data/moonbump.jpg",
+            "orbital_period": 27.322
+          }
+        ]
+      },
+      {
+        "name": "Марс",
+        "id": 499,
+        "mass": 6.4171e23,
+        "radius": 3389.5,
+        "semi_major_axis": 1.523679,
+        "eccentricity": 0.093401,
+        "inclination": 1.850,
+        "longitude_ascending_node": 49.558,
+        "argument_periapsis": 286.502,
+        "mean_anomaly": 19.373,
+        "orbital_period": 686.980,
+        "rotation_period": 1.025957,
+        "texture": "./data/marsmap.jpg",
+        "bump": "./data/marsbump.jpg",
+        "moons": [
+          {
+            "name": "Фобос",
+            "id": 401,
+            "mass": 1.0659e16,
+            "radius": 11.1,
+            "semi_major_axis": 9376,
+            "eccentricity": 0.0151,
+            "inclination": 1.093,
+            "longitude_ascending_node": 207.784,
+            "argument_periapsis": 150.057,
+            "mean_anomaly": 92.474,
+            "orbital_period": 0.31891
+          },
+          {
+            "name": "Дейсмос", 
+            "id": 402,
+            "mass": 1.4762e15,
+            "radius": 6.2,
+            "semi_major_axis": 23463,
+            "eccentricity": 0.00033,
+            "inclination": 0.93,
+            "longitude_ascending_node": 339.600,
+            "argument_periapsis": 290.496,
+            "mean_anomaly": 296.230,
+            "orbital_period": 1.26244
+          }
+        ]
+      },
+      {
+        "name": "Юпитер",
+        "id": 599,
+        "mass": 1.8982e27,
+        "radius": 69911,
+        "semi_major_axis": 5.204267,
+        "eccentricity": 0.048498,
+        "inclination": 1.303,
+        "longitude_ascending_node": 100.464,
+        "argument_periapsis": 273.867,
+        "mean_anomaly": 20.020,
+        "orbital_period": 4332.589,
+        "rotation_period": 0.41354,
+        "texture": "./data/jupiter.jpg",
+        "moons": [
+          {
+            "name": "Ё",
+            "id": 501,
+            "mass": 8.9319e22,
+            "radius": 1821.6,
+            "semi_major_axis": 421700,
+            "eccentricity": 0.0041,
+            "inclination": 0.050,
+            "longitude_ascending_node": 43.977,
+            "argument_periapsis": 84.129,
+            "mean_anomaly": 342.021,
+            "orbital_period": 1.769
+          },
+          {
+            "name": "Европа",
+            "id": 502,
+            "mass": 4.7998e22,
+            "radius": 1560.8,
+            "semi_major_axis": 671034,
+            "eccentricity": 0.0094,
+            "inclination": 0.470,
+            "longitude_ascending_node": 219.106,
+            "argument_periapsis": 88.970,
+            "mean_anomaly": 171.016,
+            "orbital_period": 3.551
+          },
+          {
+            "name": "Ганимеда",
+            "id": 503,
+            "mass": 1.4819e23,
+            "radius": 2634.1,
+            "semi_major_axis": 1070412,
+            "eccentricity": 0.0013,
+            "inclination": 0.177,
+            "longitude_ascending_node": 63.552,
+            "argument_periapsis": 192.417,
+            "mean_anomaly": 317.540,
+            "orbital_period": 7.155
+          },
+          {
+            "name": "Каллисто",
+            "id": 504,
+            "mass": 1.0759e23,
+            "radius": 2410.3,
+            "semi_major_axis": 1882709,
+            "eccentricity": 0.0074,
+            "inclination": 0.192,
+            "longitude_ascending_node": 298.848,
+            "argument_periapsis": 52.643,
+            "mean_anomaly": 181.408,
+            "orbital_period": 16.689
+          }
+        ]
+      },
+      {
+        "name": "Сатурн",
+        "id": 699,
+        "mass": 5.6834e26,
+        "radius": 58232,
+        "semi_major_axis": 9.582017,
+        "eccentricity": 0.055723,
+        "inclination": 2.489,
+        "longitude_ascending_node": 113.665,
+        "argument_periapsis": 339.391,
+        "mean_anomaly": 317.020,
+        "orbital_period": 10759.22,
+        "rotation_period": 0.44401,
+        "texture": "./data/saturnmap.jpg",
+        "moons": [
+          {
+            "name": "Мимас",
+            "id": 601,
+            "mass": 3.7493e19,
+            "radius": 198.2,
+            "semi_major_axis": 185539,
+            "eccentricity": 0.0196,
+            "inclination": 1.574,
+            "longitude_ascending_node": 139.771,
+            "argument_periapsis": 309.91,
+            "mean_anomaly": 191.69,
+            "orbital_period": 0.942
+          },
+          {
+            "name": "Титан",
+            "id": 606,
+            "mass": 1.3452e23,
+            "radius": 2574,
+            "semi_major_axis": 1221830,
+            "eccentricity": 0.0288,
+            "inclination": 0.348,
+            "longitude_ascending_node": 28.066,
+            "argument_periapsis": 180.532,
+            "mean_anomaly": 162.827,
+            "orbital_period": 15.945
+          }
+        ]
+      },
+      {
+        "name": "Уран",
+        "id": 799,
+        "mass": 8.6810e25,
+        "radius": 25362,
+        "semi_major_axis": 19.229411,
+        "eccentricity": 0.047318,
+        "inclination": 0.773,
+        "longitude_ascending_node": 74.006,
+        "argument_periapsis": 96.998857,
+        "mean_anomaly": 142.238600,
+        "orbital_period": 30688.5,
+        "rotation_period": -0.71833,
+        "texture": "./data/uranus.jpg",
+        "moons": [
+          {
+            "name": "Миранда",
+            "id": 705,
+            "mass": 6.59e19,
+            "radius": 235.8,
+            "semi_major_axis": 129390,
+            "eccentricity": 0.0013,
+            "inclination": 4.338,
+            "longitude_ascending_node": 172.23,
+            "argument_periapsis": 68.312,
+            "mean_anomaly": 311.33,
+            "orbital_period": 1.413
+          },
+          {
+            "name": "Титаниа",
+            "id": 703,
+            "mass": 3.527e21,
+            "radius": 788.4,
+            "semi_major_axis": 436300,
+            "eccentricity": 0.0011,
+            "inclination": 0.340,
+            "longitude_ascending_node": 167.661,
+            "argument_periapsis": 99.771,
+            "mean_anomaly": 24.359,
+            "orbital_period": 8.706
+          }
+        ]
+      },
+      {
+        "name": "Нептун",
+        "id": 899,
+        "mass": 1.0243e26,
+        "radius": 24622,
+        "semi_major_axis": 30.103658,
+        "eccentricity": 0.009456,
+        "inclination": 1.767,
+        "longitude_ascending_node": 131.784,
+        "argument_periapsis": 276.336,
+        "mean_anomaly": 256.228,
+        "orbital_period": 60182,
+        "rotation_period": 0.6713,
+        "texture": "./data/neptune.jpg",
+        "moons": [
+          {
+            "name": "Тритон",
+            "id": 801,
+            "mass": 2.139e22,
+            "radius": 1353.4,
+            "semi_major_axis": 354759,
+            "eccentricity": 0.000016,
+            "inclination": 157.345,
+            "longitude_ascending_node": 197.19,
+            "argument_periapsis": 344.046,
+            "mean_anomaly": 156.865,
+            "orbital_period": -5.877
+          }
+        ]
+      }
+    ]
+  }
+}

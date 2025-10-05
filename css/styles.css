@@ -1,0 +1,1497 @@
+/* Основные стили для Impactor-2025 с улучшенной прозрачностью и анимациями */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --text-color: #f0f0f0;
+    --text-secondary: #a0aec0;
+    --background-color: rgba(24, 24, 24, 0.7);
+    --secondary-color: rgba(36, 36, 36, 0.8);
+    --accent-color: rgba(48, 48, 48, 0.85);
+    --border-color: rgba(36, 36, 36, 0.5);
+    
+    --background-color-glass: rgba(24, 24, 24, 0.325);
+    --secondary-color-glass: rgba(36, 36, 36, 0.4);
+    --accent-color-glass: rgba(48, 48, 48, 0.425);
+    --border-color-glass: rgba(36, 36, 36, 0.25);
+
+    --primary-color: #000;
+    --high-temperature: #ef4444;
+    --inner-lateral-padding: 20px;
+    --inner-basic-padding: 20px;
+    --inner-left-margin: 15px;
+    --inner-right-margin: 5%;
+    --border-radius: 999px;
+    --blur-amount: 16px;
+    --spacing-small: 15px;
+    --spacing-medium: 25px;
+    --spacing-large: 35px;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #FFF;
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%) translateY(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(-50%);
+    }
+}
+
+@keyframes fadeInPanel {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Экран загрузки */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+    backdrop-filter: blur(var(--blur-amount));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    font-size: 18px;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid var(--text-secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+/* UI панели */
+.ui-panel {
+    position: fixed;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+    min-width: 280px;
+    max-width: 350px;
+    z-index: 100;
+    backdrop-filter: blur(var(--blur-amount));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInPanel 0.6s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.ui-panel:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.ui-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#main-control-panel {
+    top: 20px;
+    left: 20px;
+}
+
+#main-control-panel:hover {
+    transform: translateY(-2px);
+}
+
+#main-control-panel.hidden {
+    transform: translateY(-20px);
+}
+
+#asteroid-creator-panel {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+}
+
+/* #asteroid-creator-panel:hover {
+    transform: translate(-50%, -50%) translateY(-2px);
+} */
+
+/* #asteroid-creator-panel.hidden {
+    transform: translate(-50%, -50%) translateY(-20px);
+} */
+
+.ui-panel h3 {
+    margin-bottom: 25px;
+    color: var(--text-color);
+    font-size: 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+/* Кнопки сцен */
+.scene-selector {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    padding: 8px;
+    position: fixed;
+    top: 50%;
+    left: var(--inner-left-margin);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    z-index: 150;
+    backdrop-filter: blur(var(--blur-amount));
+    animation: slideIn 0.6s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.scene-button {
+    flex: 1;
+    padding: 12px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 12px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+}
+
+.scene-button:hover {
+    background: var(--accent-color);
+    border-color: var(--text-secondary);
+    transform: scale(1.0);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.scene-button.active {
+    background: rgba(240, 240, 240, 0.9);
+    border-color: var(--text-color);
+    color: var(--accent-color);
+    animation: pulse 2s infinite;
+}
+
+/* Группы элементов управления */
+.control-group {
+    margin-bottom: var(--spacing-medium);
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+/* Слайдеры */
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#time-picker {
+    background-color: var(--background-color);
+    position: fixed;
+    width: 320px;
+    height: 110px;
+    z-index: 1;
+    bottom: var(--inner-lateral-padding);
+    left: var(--inner-basic-padding);
+    padding: 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    backdrop-filter: blur(var(--blur-amount));
+    animation: slideIn 0.7s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+#time-picker:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.slider {
+    flex: 1;
+    height: 10px;
+    border-radius: var(--border-radius);
+    background: var(--secondary-color);
+    outline: none;
+    appearance: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    cursor: grab;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background: var(--text-color);
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    cursor: pointer;
+    border: none;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.slider:hover {
+    background: var(--accent-color);
+}
+
+.value-display {
+    min-width: 90px;
+    text-align: right;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Кнопки */
+.btn {
+    padding: 12px 20px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    backdrop-filter: blur(8px);
+}
+
+.btn:hover {
+    background: var(--accent-color);
+    border-color: var(--text-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn.primary {
+    background: rgba(48, 48, 48, 0.9);
+    border-color: var(--text-secondary);
+    color: var(--text-color);
+}
+
+.btn.primary:hover {
+    background: rgba(240, 240, 240, 0.9);
+    color: var(--primary-color);
+}
+
+.reset-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(239, 68, 68, 0.8);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+}
+
+.reset-btn:hover {
+    background: rgba(239, 68, 68, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+}
+
+/* Отображение времени */
+.time-display {
+    font-size: 16px;
+    color: var(--text-color);
+    text-align: center;
+    padding: 12px;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+}
+
+/* Сетка статистики */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-medium);
+    margin-bottom: var(--spacing-medium);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 12px;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    background: var(--accent-color);
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--text-color);
+    padding-left: 10px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+/* Кнопки переключения панелей */
+.icons-container {
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-left: 20px;
+    margin-right: var(--inner-basic-padding);
+    gap: var(--spacing-medium);
+}
+
+.toggle-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
+    backdrop-filter: blur(var(--blur-amount));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn:hover {
+    background: var(--secondary-color);
+    border-color: var(--text-secondary);
+    transform:  rotate(5deg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Селекты */
+select {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 14px;
+    outline: none;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    border-color: var(--text-secondary);
+    background: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(160, 174, 192, 0.1);
+}
+
+select option {
+    background: rgba(24, 24, 24, 0.95);
+    color: var(--text-color);
+}
+
+/* Чекбоксы */
+input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: var(--text-secondary);
+    cursor: pointer;
+}
+
+/* Скрытые элементы для отладки */
+#controls, #info, #click-instruction {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--background-color);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    min-width: 250px;
+    backdrop-filter: blur(var(--blur-amount));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.6s ease;
+}
+
+
+
+#click-instruction {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 18px;
+    padding: 40px;
+    background: var(--background-color);
+    border-color: var(--border-color);
+}
+
+button svg {
+    pointer-events: none;
+}
+
+div svg {
+    pointer-events: none;
+}
+
+/* Информация о частицах */
+.particle-info {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.particle-info div {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.temperature-display {
+    color: var(--high-temperature) !important;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Header */
+#header {
+    position: fixed;
+    top: var(--inner-lateral-padding);
+    width: 100%;
+    overflow-y: hidden;
+    height: 50px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.6s ease;
+    gap: var(--spacing-medium);
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    width: 150px;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(var(--blur-amount));
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    margin: 0;
+    height: 36px;
+    width: 36px;
+    padding: 6px;
+    background-color: var(--accent-color);
+    align-items: center;
+    align-content: center;
+    display: flex;
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.stat:hover .icon {
+    color: var(--text-color);
+    transform: scale(1.05);
+}
+
+.stats {
+    height: 28px;
+    display: flex;
+    gap: var(--spacing-medium);
+}
+
+.stats-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-medium);
+}
+
+.choose-container {
+    padding: 8px 25px;
+    background-color: var(--background-color);
+    margin-left: var(--inner-lateral-padding);
+    border-radius: var(--border-radius);
+    min-width: 220px;
+    height: 50px;
+    backdrop-filter: blur(var(--blur-amount));
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.choose-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.choose-header {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.choose-description {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.control-panel {
+    position: fixed;
+    top: 50%;
+    right: var(--inner-right-margin);
+    transform: translateY(-50%);
+    z-index: 1000;
+    width: 32%;
+    height: 660px;
+    opacity: 1;
+    transition: all 0.3s ease-in-out; /* одинаково */
+}
+
+.control-panel.hidden {
+    transform: translateY(-50%) translateX(100%);
+    opacity: 0;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-large);
+    height: 188px;
+    margin-bottom: var(--spacing-medium);
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+    font-size: 16px;
+    height: 100%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wrapper:hover {
+    transform: scale(1.02);
+}
+
+.text-content > svg {
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.wrapper:hover .text-content > svg {
+    transform: scale(1.05);
+}
+
+.asteroid-image {
+    position: absolute;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    transform: translateX(-15%) rotate(-20deg) scaleX(2) translateY(10%);
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.wrapper:hover .asteroid-image {
+    transform: translateX(-15%) rotate(-25deg) scaleX(2.1) translateY(10%);
+}
+
+.earth-image {
+    position: absolute;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    transform: translateX(15%) scale(1) translateY(10%);
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.wrapper:hover .earth-image {
+    transform: translateX(15%) scale(1.05) translateY(10%);
+}
+
+.text-content {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 80%;
+    background-image: linear-gradient(215deg, var(--accent-color), var(--background-color));
+    display: flex;
+    flex-direction: column;
+    padding: 0.8em;
+    box-sizing: border-box;
+    border-radius: 18px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background-size: 200% 200%;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.text-content:hover {
+    background-position: 100% 0;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.text-front {
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 1.2;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.text-content:hover .text-front {
+    transform: translateX(2px);
+}
+
+.text-back {
+    font-size: 1em;
+    margin-bottom: 0.3em;
+    line-height: 1.2;
+    pointer-events: none;
+    max-width: 100%;
+}
+
+.text-description {
+    margin-top: 10px;
+    font-size: 0.8em;
+    overflow-y: scroll;
+    padding: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary) var(--accent-color);
+}
+
+.wrapper .text-content .text-description::-webkit-scrollbar {
+    width: 8px !important;
+    background: var(--accent-color) !important;
+    border-radius: var(--border-radius);
+}
+
+.wrapper .text-content .text-description::-webkit-scrollbar-button {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+.wrapper .text-content .text-description::-webkit-scrollbar-thumb {
+    background: var(--secondary-color) !important;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.wrapper .text-content .text-description::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary) !important;
+}
+
+.icons-group {
+    width: 100%;
+    margin-top: var(--spacing-large);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--secondary-color);
+    border: 0;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.icon-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px) rotate(5deg);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.icon-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    :root {
+        --spacing-small: 10px;
+        --spacing-medium: 15px;
+        --spacing-large: 20px;
+    }
+
+    .ui-panel {
+        min-width: 250px;
+        max-width: 300px;
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .scene-selector {
+        flex-direction: column;
+    }
+    
+    #main-control-panel {
+        top: 10px;
+        left: 10px;
+    }
+    
+    #info-panel {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ui-panel {
+        min-width: calc(100vw - 40px);
+        max-width: calc(100vw - 40px);
+    }
+    
+    #main-control-panel,
+    #info-panel {
+        position: relative;
+        margin: 10px 20px;
+    }
+}
+
+/* Примеры использования размеров */
+.size-small { font-size: 12px; }
+.size-medium { font-size: 16px; }
+.size-large { font-size: 24px; }
+.size-xlarge { font-size: 32px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .control-panel {
+    position: fixed;
+    top: 50%;
+    right: var(--inner-right-margin);
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 32%;
+    animation: fadeIn 0.7s ease-in-out;
+} */
+
+/*
+Настройки
+*/
+/* Панель настроек */
+.settings-panel {
+    position: fixed;
+    top: 50%;
+    right: var(--inner-right-margin);
+    width: 32%;
+    height: 600px;
+    background: var(--background-color);
+    backdrop-filter: blur(var(--blur-amount));
+    border-left: 1px solid var(--border-color);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.settings-panel.hidden {
+    transform: translateX(100%) translateY(-50%);
+    opacity: 0;
+}
+
+/* Заголовок */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--secondary-color);
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: var(--high-temperature);
+    border-color: var(--high-temperature);
+    transform: rotate(90deg);
+}
+
+/* Вкладки */
+.settings-tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--secondary-color);
+}
+
+.settings-tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.settings-tabs::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.settings-tabs::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+/* Контент настроек */
+.settings-content {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--background-color);
+    padding: 20px;
+}
+
+.settings-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-content::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.settings-content::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+.settings-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeInSettings 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInSettings {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Группы настроек */
+.setting-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: var(--secondary-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.setting-group:hover {
+    background: var(--accent-color);
+    border-color: var(--text-secondary);
+    transform: translateX(3px);
+}
+
+/* Метки */
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.setting-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.setting-label-range,
+.setting-label-select,
+.setting-label-input,
+.setting-label-color {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Описания */
+.setting-description {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Слайдеры в настройках */
+.setting-group input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.setting-group .range-value {
+    display: inline-block;
+    min-width: 60px;
+    text-align: right;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Селекты */
+.setting-group select {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.setting-group select:hover {
+    border-color: var(--text-secondary);
+}
+
+.setting-group select:focus {
+    outline: none;
+    border-color: var(--text-color);
+    box-shadow: 0 0 0 3px rgba(240, 240, 240, 0.1);
+}
+
+/* Текстовые поля */
+.setting-group input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.setting-group input[type="text"]:hover {
+    border-color: var(--text-secondary);
+}
+
+.setting-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--text-color);
+    box-shadow: 0 0 0 3px rgba(240, 240, 240, 0.1);
+}
+
+.setting-group input[type="text"]::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+/* Color picker */
+.setting-group input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--background-color);
+    transition: all 0.3s ease;
+}
+
+.setting-group input[type="color"]:hover {
+    border-color: var(--text-secondary);
+    transform: scale(1.05);
+}
+
+/* Футер */
+.settings-footer {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background: var(--secondary-color);
+}
+
+.settings-footer .btn {
+    flex: 1;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Уведомления */
+.settings-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 14px;
+    z-index: 2000;
+    backdrop-filter: blur(var(--blur-amount));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.settings-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .settings-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .settings-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-header {
+        padding: 20px 15px;
+    }
+    
+    .settings-header h2 {
+        font-size: 20px;
+    }
+    
+    .settings-content {
+        padding: 15px;
+    }
+    
+    .setting-group {
+        padding: 12px;
+    }
+}
+
+/* Дополнительные стили для улучшения UX */
+.setting-group input[type="checkbox"]:focus {
+    outline: 2px solid var(--text-secondary);
+    outline-offset: 2px;
+}
+
+.setting-group input[type="range"]:focus {
+    outline: none;
+}
+
+.setting-group input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px rgba(240, 240, 240, 0.2);
+}
+
+/* Анимация для hover эффектов */
+.settings-panel * {
+    transition: all 0.2s ease;
+}
+
+/* Подсветка активного поля */
+.setting-group:focus-within {
+    background: var(--accent-color);
+    border-color: var(--text-color);
+}
+
+/* Стили для disabled элементов */
+.setting-group input:disabled,
+.setting-group select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Улучшенные стили для чекбоксов */
+.setting-label input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--background-color);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.setting-label input[type="checkbox"]:hover {
+    border-color: var(--text-secondary);
+}
+
+.setting-label input[type="checkbox"]:checked {
+    background: var(--text-color);
+    border-color: var(--text-color);
+}
+
+.setting-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--background-color);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Группировка связанных настроек */
+.setting-group-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Иконки в настройках */
+.setting-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+/* Статус индикаторы */
+.setting-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+}
+
+.setting-status.active {
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.setting-status.inactive {
+    background: var(--text-secondary);
+}
+
+
+/*
+===========================================================
+СТИЛИ ДЛЯ СПИСКА ПЛАНЕТ
+===========================================================
+*/
+
+.planets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.planet-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.planet-item:hover {
+    background: var(--accent-color);
+    border-color: var(--text-secondary);
+    transform: translateX(5px);
+}
+
+.planet-item.selected {
+    background: rgba(240, 240, 240, 0.1);
+    border-color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.planet-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.planet-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.planet-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.planet-details {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 12px;
+}
+
+.planet-detail {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.planet-badge {
+    padding: 3px 8px;
+    background: var(--accent-color);
+    border-radius: 12px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.planet-badge.inner {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.planet-badge.outer {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.planet-badge.dwarf {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+}
+
+/* Пустое состояние */
+.planets-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.planets-empty svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* Счетчик планет */
+.planets-count {
+    padding: 12px;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 15px;
+}
