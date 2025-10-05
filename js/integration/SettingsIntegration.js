@@ -158,7 +158,7 @@ export class SettingsIntegration {
                 }
                 
                 // Обновление цветов астероидов
-                solarScene.updateAsteroidColors(display.phaColor, display.asteroidColor);
+                solarScene.updateAsteroids(display.phaColor, display.asteroidColor, display.asteroidSize);
             
             }
         }
@@ -167,10 +167,6 @@ export class SettingsIntegration {
     }
     
     applyEarthOrbitSettings(earthOrbit) {
-        if (this.app.getCurrentScene() !== 'earth-orbit') {
-            console.log('⚠ Околоземная сцена не активна');
-            return;
-        }
         
         const earthOrbitScene = this.app.getEarthOrbitScene();
         if (!earthOrbitScene || !earthOrbitScene.collisionSystem) {

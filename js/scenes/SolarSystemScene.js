@@ -15,12 +15,13 @@ export class SolarSystemScene {
         
         this.phaColor = { r: 1.0, g: 0.0, b: 0.0 };
         this.asteroidColor = { r: 0.8, g: 0.7, b: 0.6 };
+        this.asteroidSize = 0.02;
 
         this.startTime = Date.now();
         this.timeScale = 1;
     }
 
-    updateAsteroidColors(phaColorHex, asteroidColorHex) {
+    updateAsteroids(phaColorHex, asteroidColorHex, size) {
         // Конвертация из hex в RGB
         const hexToRgb = (hex) => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -33,6 +34,13 @@ export class SolarSystemScene {
         
         this.phaColor = hexToRgb(phaColorHex);
         this.asteroidColor = hexToRgb(asteroidColorHex);
+        this.asteroidSize = size;
+    
+        const asteroidPoints = this.scene.getObjectByName('asteroidPoints');
+        if (asteroidPoints && asteroidPoints.material) {
+            asteroidPoints.material.size = size;
+            asteroidPoints.material.needsUpdate = true;
+        }
     }
     
     async create() {
@@ -335,7 +343,7 @@ export class SolarSystemScene {
         asteroidGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         
         const asteroidMaterial = new THREE.PointsMaterial({
-            size: 0.02,
+            size: this.asteroidSize,
             transparent: true,
             opacity: 0.8,
             sizeAttenuation: true,

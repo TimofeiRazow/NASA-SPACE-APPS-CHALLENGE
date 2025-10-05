@@ -251,7 +251,7 @@ export class SettingsManager {
             const saved = localStorage.getItem('impactor_settings');
             if (saved) {
                 const parsed = JSON.parse(saved);
-                this.settings = { ...this.getDefaultSettings(), ...parsed };
+                this.settings = { ...this.getDefaultSettings() };
             }
         } catch (e) {
             console.warn('Не удалось загрузить настройки:', e);
